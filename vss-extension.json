@@ -1,0 +1,51 @@
+{
+    "manifestVersion": 1,
+    "id": "tagging",
+    "name": "Tagging",
+    "publisher": "foxholenl",
+    "description": "This extension provides tagging for pipelines, releases and git commits.",
+    "version": "0.0.11",
+    "public": false,
+    "targets": [
+        {
+            "id": "Microsoft.VisualStudio.Services"
+        }
+    ],
+    "content": {
+        "details": {
+            "path": "README.md"
+        }
+    },
+    "icons": {
+        "default": "images/logo.png"
+    },
+    "links": {
+        "support": {
+            "uri": "https://github.com/JoostVoskuil/azure-devops-tagging"
+        }
+    },
+    "repository": {
+        "type": "git",
+        "uri": "https://github.com/JoostVoskuil/azure-devops-tagging"
+    },
+    "categories": [
+        "Azure Pipelines"
+    ],
+    "files": [
+        {
+            "path": "task"
+        }
+    ],
+    "contributions": [
+        {
+            "id": "foxholenl-tagging",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [
+                "ms.vss-distributed-task.tasks"
+            ],
+            "properties": {
+                "name": "task"
+            }
+        }
+    ]
+}

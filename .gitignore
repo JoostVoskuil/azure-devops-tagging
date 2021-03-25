@@ -1,0 +1,13 @@
+*.js
+*.map
+*.js.map
+*.vsix
+node_modules/
+.nyc_output/
+package-lock.json
+
+.vscode/
+.taskkey
+
+test-results.xml
+coverage/

@@ -1,0 +1,16 @@
+name: '0.1$(rev:.r)'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Tagging@0
+  inputs:
+    tags: 'tag1, tag2'
+    tagtype: 'pipeline'
+
+- task: Tagging@0
+  inputs:
+    tags: 'tag1'
+    tagtype: 'git'
+    message: 'test'

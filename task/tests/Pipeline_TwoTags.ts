@@ -10,7 +10,7 @@ const tags: string[] = ['tag1', 'tag2'];
 const teamProject = 'TestTeamProject';
 const buildId = 123
 tmr.setInput('tags', tags.join(','));
-tmr.setInput('tagType', 'pipeline');
+tmr.setInput('tagType', 'build');
 
 // Environment Settings
 process.env['SYSTEM_TEAMPROJECT'] = teamProject

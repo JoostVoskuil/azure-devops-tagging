@@ -6,6 +6,7 @@ import * as ra from 'azure-devops-node-api/ReleaseApi';
 
 import { IProxyConfiguration, IRequestOptions } from 'azure-devops-node-api/interfaces/common/VsoBaseInterfaces';
 import { GitAnnotatedTag, GitObjectType } from 'azure-devops-node-api/interfaces/GitInterfaces';
+import { Release } from 'azure-devops-node-api/interfaces/ReleaseInterfaces';
 
 async function run() {
    try {
@@ -17,33 +18,54 @@ async function run() {
       }
 
       const connection = await getAzureDevOpsConnection(collectionUri, token);
-      const tagInput = getAzureDevOpsInput('tags');
+      const tags = getAzureDevOpsInput('tags').split(',');
       const tagType = getAzureDevOpsInput('tagtype');
-      const tags = tagInput.split(',');
+
       const teamProject = getAzureDevOpsVariable('System.TeamProject');
       const hostType = getAzureDevOpsVariable('System.HostType').toLowerCase();
 
-      if (hostType === 'build' && tagType === 'release') throw Error(`When running a pipeline, you can only tag pipelines and git commits.`);
-      if (hostType === 'release' && tagType !== 'release') throw Error(`When running a release, you can only tag releases.`);
-      if (hostType === 'deployment' && tagType !== 'release') throw Error(`When running a release, you can only tag releases.`);
-
-      switch (tagType) {
-         case 'pipeline': {
-            await tagPipeline(tags, teamProject, connection);
+      switch (hostType) {
+         case 'build': {
+            if (tagType === 'release') {
+               throw 'You are running a build/pipeline. Tagging a release is not possible.'
+            }
+            else if (tagType === 'build') {
+               const buildId = Number(getAzureDevOpsVariable('Build.BuildId'));
+               await tagPipeline(tags, teamProject, buildId, connection);
+            }
+            else if (tagType === 'git') {
+               if (tags.length > 1) tl.warning(`Multiple tags detected. Concatenating tags to one:${tags.join(',')}`);
+               const message = getAzureDevOpsInput('message');
+               const repositoryId = getAzureDevOpsVariable(`Build.Repository.Id`);
+               const commitId = getAzureDevOpsVariable(`Build.SourceVersion`);
+               await tagGit(tags.join(','), message, teamProject, repositoryId, commitId, connection);
+            }
             break;
          }
-         case 'git': {
-            if (tags.length > 1) tl.warning(`Multiple tags detected. Contatenating tags to one:${tags.join(',')}`);
-            const message = getAzureDevOpsInput('message');
-            await tagGit(tags.join(','), message, teamProject, connection);
-            break;
-         }
+         case 'deployment':
          case 'release': {
-            await tagRelease(tags, teamProject, connection);
+
+            if (tagType === 'build') {
+               throw 'You are running a classic release pipeline. Tagging a build/pipeline is not possible.';
+            }
+            else if (tagType === 'git') {
+               throw 'You are running a classic release pipeline. Tagging a git commit directly is not possible.';
+            }
+            else if (tagType === 'release') {
+               const releaseId = Number(getAzureDevOpsVariable('Release.ReleaseId'));
+               await tagRelease(tags, teamProject, releaseId, connection);
+               const inputTagBuildArtifacts = tl.getBoolInput('tagbuildartifacts');
+               if (inputTagBuildArtifacts) {
+                  await tagBuildArtifacts(tags, teamProject, releaseId, connection);
+               }
+
+               const inputTagGitArtifacts = tl.getBoolInput('taggitartifacts');
+               if (inputTagGitArtifacts) {
+                  const message = getAzureDevOpsInput('message');
+                  await tagGitArtifacts(tags, message, teamProject, releaseId, connection);
+               }
+            }
             break;
-         }
-         default: {
-            throw Error(`Unknown tagType: ${tagType}`);
          }
       }
       tl.setResult(tl.TaskResult.Succeeded, '');
@@ -55,26 +77,47 @@ async function run() {
 
 run();
 
-async function tagPipeline(tags: string[], teamProject: string, connection: azdev.WebApi): Promise<void> {
+async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId: number, connection: azdev.WebApi): Promise<void> {
+   const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
+   const release: Release = await releaseApi.getRelease(teamProject, releaseId);
+   if (!release.artifacts) return; 
+
+   for (const artifact of release.artifacts.filter(x => x.type === 'Build')) {
+      const buildId = Number(tl.getVariable(`Release.Artifacts.${artifact.alias}.BuildId`));
+      await tagPipeline(tags, teamProject, buildId, connection);
+      console.log(`Added build tag to: '${artifact.alias} / ${buildId}.`);
+   }
+}
+
+async function tagGitArtifacts(tags: string[], message: string, teamProject: string, releaseId: number, connection: azdev.WebApi): Promise<void> {
+   const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
+   const release: Release = await releaseApi.getRelease(teamProject, releaseId);
+   if (!release.artifacts) return; 
+
+   for (const artifact of release.artifacts.filter(x => x.type === 'Git')) {
+      const repositoryId = getAzureDevOpsVariable(`Release.Artifacts.${artifact.alias}.Repository.Id`);
+      const commitId = getAzureDevOpsVariable(`Release.Artifacts.${artifact.alias}.SourceVersion`);
+      await tagGit(tags.join(','), message, teamProject, repositoryId, commitId, connection);
+      console.log(`Added git tag to: '${artifact.alias} / ${commitId}.`);
+   }
+}
+
+async function tagPipeline(tags: string[], teamProject: string, buildId: number, connection: azdev.WebApi): Promise<void> {
    const buildApi: ba.BuildApi = await connection.getBuildApi();
-   const buildId = Number(getAzureDevOpsVariable('Build.BuildId'));
    await buildApi.addBuildTags(tags, teamProject, buildId);
    console.log(`Added pipeline tags: '${tags.join(',')}'.`);
 }
 
-async function tagRelease(tags: string[], teamProject: string, connection: azdev.WebApi): Promise<void> {
+async function tagRelease(tags: string[], teamProject: string, releaseId: number, connection: azdev.WebApi): Promise<void> {
    const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
-   const releaseId = Number(getAzureDevOpsVariable('Release.ReleaseId'));
    await releaseApi.addReleaseTags(tags, teamProject, releaseId);
    console.log(`Added release tags: '${tags.join(',')}'.`);
 }
 
-async function tagGit(tag: string, message: string, teamProject: string, connection: azdev.WebApi): Promise<void> {
+async function tagGit(tag: string, message: string, teamProject: string, repositoryId: string, commitId: string, connection: azdev.WebApi): Promise<void> {
    const gitApi: ga.GitApi = await connection.getGitApi();
-   const repositoryId = getAzureDevOpsVariable(`Build.Repository.Id`);
-   const commitId = getAzureDevOpsVariable(`Build.SourceVersion`);
 
-   const tagObject: GitAnnotatedTag = {
+   const annotatedTag: GitAnnotatedTag = {
       message: message,
       name: tag,
       taggedObject: {
@@ -83,7 +126,7 @@ async function tagGit(tag: string, message: string, teamProject: string, connect
       }
    };
 
-   await gitApi.createAnnotatedTag(tagObject, teamProject, repositoryId);
+   await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
    console.log(`Added git tag ${tag} with message: ${message}`);
 }
 
@@ -110,15 +153,14 @@ async function getAzureDevOpsConnection(collectionUri: string, token: string): P
    const agentProxy = tl.getHttpProxyConfiguration();
    let proxyConfiguration: IProxyConfiguration;
 
-   if (agentProxy)
-   {
-       proxyConfiguration = {
-           proxyUrl: agentProxy.proxyUrl,
-           proxyUsername: agentProxy.proxyUsername,
-           proxyPassword: agentProxy.proxyPassword,
-           proxyBypassHosts: agentProxy.proxyBypassHosts
-       }
-       requestOptions.proxy = proxyConfiguration;
+   if (agentProxy) {
+      proxyConfiguration = {
+         proxyUrl: agentProxy.proxyUrl,
+         proxyUsername: agentProxy.proxyUsername,
+         proxyPassword: agentProxy.proxyPassword,
+         proxyBypassHosts: agentProxy.proxyBypassHosts
+      }
+      requestOptions.proxy = proxyConfiguration;
    }
 
    const connection = new azdev.WebApi(collectionUri, accessTokenHandler, requestOptions)

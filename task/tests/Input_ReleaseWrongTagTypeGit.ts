@@ -10,11 +10,11 @@ const tags: string[] = ['tag1'];
 const teamProject = 'TestTeamProject';
 
 tmr.setInput('tags', tags.join(','));
-tmr.setInput('tagType', 'build');
+tmr.setInput('tagType', 'git');
 
 // Environment Settings
 process.env['SYSTEM_TEAMPROJECT'] = teamProject
-process.env['SYSTEM_HOSTTYPE'] = 'deployment'
+process.env['SYSTEM_HOSTTYPE'] = 'release'
 
 // System_AccessToken
 process.env['ENDPOINT_AUTH_SCHEME_SYSTEMVSSCONNECTION'] = 'OAuth'

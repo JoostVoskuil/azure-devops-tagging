@@ -11,6 +11,8 @@ const teamProject = 'TestTeamProject';
 const releaseId = 123
 tmr.setInput('tags', tags.join(','));
 tmr.setInput('tagType', 'release');
+tmr.setInput('taggitartifacts', 'false');
+tmr.setInput('tagbuildartifacts', 'false');
 
 // Environment Settings
 process.env['SYSTEM_TEAMPROJECT'] = teamProject

@@ -9,21 +9,25 @@ let tmr: mr.TaskMockRunner = new mr.TaskMockRunner(taskPath);
 const tags: string[] = ['tag1'];
 const teamProject = 'TestTeamProject';
 const releaseId = 123
+const message = "blabla";
+
 tmr.setInput('tags', tags.join(','));
 tmr.setInput('tagType', 'release');
+tmr.setInput('message', message);
 tmr.setInput('taggitartifacts', 'false');
-tmr.setInput('tagbuildartifacts', 'false');
+tmr.setInput('tagbuildartifacts', 'true');
 
 // Environment Settings
-process.env['SYSTEM_TEAMPROJECT'] = teamProject
-process.env['SYSTEM_HOSTTYPE'] = 'release'
+process.env['SYSTEM_TEAMPROJECT'] = teamProject;
+process.env['SYSTEM_HOSTTYPE'] = 'release';
 process.env['RELEASE_RELEASEID'] = releaseId.toString();
+process.env['RELEASE_ARTIFACTS_BUILD_BUILDID'] = '123';
 
 // System_AccessToken
-process.env['ENDPOINT_AUTH_SCHEME_SYSTEMVSSCONNECTION'] = 'OAuth'
-process.env['ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN'] = 'Accesstoken'
-process.env['ENDPOINT_URL_SYSTEMVSSCONNECTION'] = 'https://dev.azure.com/organisation'
+process.env['ENDPOINT_AUTH_SCHEME_SYSTEMVSSCONNECTION'] = 'OAuth';
+process.env['ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN'] = 'Accesstoken';
+process.env['ENDPOINT_URL_SYSTEMVSSCONNECTION'] = 'https://dev.azure.com/organisation';
 
-tmr = BuildWithAddBuildTagsMock(tmr, tags, teamProject, releaseId);
+tmr = BuildWithAddBuildTagsMock(tmr, tags, teamProject, releaseId, message, true);
 
 tmr.run();

@@ -8,20 +8,25 @@ let tmr: mr.TaskMockRunner = new mr.TaskMockRunner(taskPath);
 // Inputs
 const tags: string[] = ['tag1'];
 const teamProject = 'TestTeamProject';
-const buildId = 123
+const releaseId = 123
+const message = "blabla";
+
 tmr.setInput('tags', tags.join(','));
-tmr.setInput('tagType', 'build');
+tmr.setInput('tagType', 'release');
+tmr.setInput('message', message);
+tmr.setInput('taggitartifacts', 'true');
+tmr.setInput('tagbuildartifacts', 'false');
 
 // Environment Settings
 process.env['SYSTEM_TEAMPROJECT'] = teamProject
-process.env['SYSTEM_HOSTTYPE'] = 'build'
-process.env['BUILD_BUILDID'] = buildId.toString();
+process.env['SYSTEM_HOSTTYPE'] = 'release'
+process.env['RELEASE_RELEASEID'] = releaseId.toString();
 
 // System_AccessToken
 process.env['ENDPOINT_AUTH_SCHEME_SYSTEMVSSCONNECTION'] = 'OAuth'
 process.env['ENDPOINT_AUTH_PARAMETER_SYSTEMVSSCONNECTION_ACCESSTOKEN'] = 'Accesstoken'
 process.env['ENDPOINT_URL_SYSTEMVSSCONNECTION'] = 'https://dev.azure.com/organisation'
 
-tmr = BuildWithAddBuildTagsMock(tmr, tags, teamProject, buildId);
+tmr = BuildWithAddBuildTagsMock(tmr, tags, teamProject, releaseId, message, false);
 
 tmr.run();

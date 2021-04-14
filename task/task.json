@@ -37,14 +37,6 @@
             "required": true
         },
         {
-            "name": "message",
-            "type": "string",
-            "label": "Git tag message",
-            "helpMarkDown": "Message for git tagging.",
-            "required": true,
-            "visibleRule": "tagtype=git || taggitartifacts=true"
-        },
-        {
             "name": "tagbuild",
             "type": "boolean",
             "label": "Tag build/pipeline",
@@ -66,6 +58,14 @@
             "helpMarkDown": "Check if you want to tag all git artifacs referenced by this release.",
             "required": true,
             "visibleRule": "tagtype=release"
+        },
+        {
+            "name": "message",
+            "type": "string",
+            "label": "Git tag message",
+            "helpMarkDown": "Message for git tagging.",
+            "required": true,
+            "visibleRule": "tagtype=git || taggitartifacts=true"
         }
     ],
     "execution": {

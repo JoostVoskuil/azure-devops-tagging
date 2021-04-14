@@ -42,7 +42,7 @@
             "label": "Git tag message",
             "helpMarkDown": "Message for git tagging.",
             "required": true,
-            "visibleRule": "tagtype=git || (tagtype=release && taggitartifacts=true)"
+            "visibleRule": "tagtype=git || tagtype=release && taggitartifacts=true"
         },
         {
             "name": "tagbuild",

@@ -37,13 +37,6 @@
             "required": true
         },
         {
-            "name": "tagbuild",
-            "type": "boolean",
-            "label": "Tag build/pipeline",
-            "helpMarkDown": "Check if yo",
-            "required": true
-        },
-        {
             "name": "tagbuildartifacts",
             "type": "boolean",
             "label": "Tag used Build Artifacts",

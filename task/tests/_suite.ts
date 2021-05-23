@@ -48,7 +48,7 @@ describe('Tag Pipelines', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added pipeline tags: 'tag1'.") >= 0, true, "Should contain: Added pipeline tags: 'tag1'.");
+        assert.strictEqual(tr.stdout.indexOf("Added pipeline tags") >= 0, true, "Should contain: Added pipeline tags: 'tag1'.");
         done();
     });
     
@@ -57,7 +57,7 @@ describe('Tag Pipelines', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added pipeline tags: 'tag1,tag2'.") >= 0, true, "Should contain: Added pipeline tags: 'tag1,tag2'.");
+        assert.strictEqual(tr.stdout.indexOf("Added pipeline tags") >= 0, true, "Should contain: Added pipeline tags: 'tag1,tag2'.");
         done();
     });
 });
@@ -112,7 +112,7 @@ describe('Tag Releases', function () {
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
         assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
-        assert.strictEqual(tr.stdout.indexOf("Added build tag") >= 0, true, "Added build tag.");        
+        assert.strictEqual(tr.stdout.indexOf("Added pipeline tag") >= 0, true, "Added build tag.");        
         done();
     });
 });

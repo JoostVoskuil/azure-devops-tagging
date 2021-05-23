@@ -11,8 +11,8 @@
     ],
     "author": "Joost Voskuil (joost@foxhole.nl)",
     "version": {
-        "Major": 0,
-        "Minor": 0,
+        "Major": 1,
+        "Minor": 2,
         "Patch": 1
     },
     "inputs": [
@@ -45,6 +45,14 @@
             "visibleRule": "tagtype=release"
         },
         {
+            "name": "tagbuildartifactsexclusions",
+            "type": "string",
+            "label": "Build Artifacts exlusions (RegExp)",
+            "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
+            "required": false,
+            "visibleRule": "tagbuildartifacts=true"
+        },
+        {
             "name": "taggitartifacts",
             "type": "boolean",
             "label": "Tag used Git Artifacts",
@@ -59,6 +67,14 @@
             "helpMarkDown": "Message for git tagging.",
             "required": true,
             "visibleRule": "tagtype=git || taggitartifacts=true"
+        },
+        {
+            "name": "taggitartifactsexclusions",
+            "type": "string",
+            "label": "Git Artifacts exlusions (RegExp)",
+            "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
+            "required": false,
+            "visibleRule": "taggitartifacts=true"
         }
     ],
     "execution": {

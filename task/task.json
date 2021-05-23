@@ -61,20 +61,20 @@
             "visibleRule": "tagtype=release"
         },
         {
-            "name": "taggitartifactsexclusions",
-            "type": "string",
-            "label": "Git Artifacts exlusions (RegExp)",
-            "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
-            "required": false,
-            "visibleRule": "taggitartifacts=true"
-        },
-        {
             "name": "message",
             "type": "string",
             "label": "Git tag message",
             "helpMarkDown": "Message for git tagging.",
             "required": true,
             "visibleRule": "tagtype=git || taggitartifacts=true"
+        },
+        {
+            "name": "taggitartifactsexclusions",
+            "type": "string",
+            "label": "Git Artifacts exlusions (RegExp)",
+            "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
+            "required": false,
+            "visibleRule": "taggitartifacts=true"
         }
     ],
     "execution": {

@@ -84,12 +84,14 @@ run();
 async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId: number, connection: azdev.WebApi, exclusionsInputString?: string): Promise<void> {
    const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
    const release: Release = await releaseApi.getRelease(teamProject, releaseId);
+
+   console.log(`Tagging build artifacts:`);
    if (!release.artifacts) return;
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Build')) {
       if (artifact.alias === undefined) continue;
       if (regExpFromString(artifact.alias, exclusionsInputString)) {
-         console.log(`${artifact.alias} matches ${exclusionsInputString}, skipping tagging for this artifact`);
+         console.log(`'${artifact.alias}' matches '${exclusionsInputString}', skipping tagging for this artifact`);
          continue;
       }
       const buildId = Number(tl.getVariable(`Release.Artifacts.${artifact.alias}.BuildId`));
@@ -101,12 +103,13 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
 async function tagGitArtifacts(tags: string[], message: string, teamProject: string, releaseId: number, connection: azdev.WebApi, exclusionsInputString?: string): Promise<void> {
    const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
    const release: Release = await releaseApi.getRelease(teamProject, releaseId);
+   console.log(`Tagging Git artifacts:`);
    if (!release.artifacts) return;
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Git')) {
       if (artifact.alias === undefined) continue;
       if (regExpFromString(artifact.alias, exclusionsInputString)) {
-         console.log(`${artifact.alias} matches ${exclusionsInputString}, skipping tagging for this artifact`);
+         console.log(`'${artifact.alias}' matches '${exclusionsInputString}', skipping tagging for this artifact`);
          continue;
       }
 

@@ -96,7 +96,6 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
       }
       const buildId = Number(tl.getVariable(`Release.Artifacts.${artifact.alias}.BuildId`));
       await tagPipeline(tags, teamProject, buildId, connection);
-      console.log(`Added build tag to: '${artifact.alias} / ${buildId}.`);
    }
 }
 
@@ -116,14 +115,13 @@ async function tagGitArtifacts(tags: string[], message: string, teamProject: str
       const repositoryId = getAzureDevOpsVariable(`Release.Artifacts.${artifact.alias}.Repository.Id`);
       const commitId = getAzureDevOpsVariable(`Release.Artifacts.${artifact.alias}.SourceVersion`);
       await tagGit(tags.join(','), message, teamProject, repositoryId, commitId, connection);
-      console.log(`Added git tag to: '${artifact.alias} / ${commitId}.`);
    }
 }
 
 async function tagPipeline(tags: string[], teamProject: string, buildId: number, connection: azdev.WebApi): Promise<void> {
    const buildApi: ba.BuildApi = await connection.getBuildApi();
    await buildApi.addBuildTags(tags, teamProject, buildId);
-   console.log(`Added pipeline tags: '${tags.join(',')}'.`);
+   console.log(`Added pipeline tags to pipeline ${buildId}: '${tags.join(',')}'.`);
 }
 
 async function tagRelease(tags: string[], teamProject: string, releaseId: number, connection: azdev.WebApi): Promise<void> {
@@ -145,7 +143,7 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
    };
 
    await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
-   console.log(`Added git tag ${tag} with message: ${message}`);
+   console.log(`Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
 }
 
 function getAzureDevOpsVariable(name: string): string {

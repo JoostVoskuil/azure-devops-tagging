@@ -4,7 +4,7 @@
     "name": "Tagging",
     "publisher": "foxholenl",
     "description": "This extension provides tagging for pipelines, releases and git commits.",
-    "version": "0.0.11",
+    "version": "1.2.0",
     "public": false,
     "targets": [
         {

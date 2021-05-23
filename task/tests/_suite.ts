@@ -110,7 +110,6 @@ describe('Tag Releases', function () {
         const tp = path.join(__dirname, 'Release_ArtifactBuild');
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
-        console.log(tr.stdout);
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
         assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
         assert.strictEqual(tr.stdout.indexOf("Added build tag") >= 0, true, "Added build tag.");        

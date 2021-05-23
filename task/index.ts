@@ -88,8 +88,10 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Build')) {
       if (artifact.alias === undefined) continue;
-      if (regExpFromString(artifact.alias, exclusionsInputString)) continue;
-
+      if (regExpFromString(artifact.alias, exclusionsInputString)) {
+         console.log(`${artifact.alias} matches ${exclusionsInputString}, skipping tagging for this artifact`);
+         continue;
+      };
       const buildId = Number(tl.getVariable(`Release.Artifacts.${artifact.alias}.BuildId`));
       await tagPipeline(tags, teamProject, buildId, connection);
       console.log(`Added build tag to: '${artifact.alias} / ${buildId}.`);
@@ -103,7 +105,10 @@ async function tagGitArtifacts(tags: string[], message: string, teamProject: str
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Git')) {
       if (artifact.alias === undefined) continue;
-      if (regExpFromString(artifact.alias, exclusionsInputString)) continue;
+      if (regExpFromString(artifact.alias, exclusionsInputString)) {
+         console.log(`${artifact.alias} matches ${exclusionsInputString}, skipping tagging for this artifact`);
+         continue;
+      };
 
       const repositoryId = getAzureDevOpsVariable(`Release.Artifacts.${artifact.alias}.Repository.Id`);
       const commitId = getAzureDevOpsVariable(`Release.Artifacts.${artifact.alias}.SourceVersion`);

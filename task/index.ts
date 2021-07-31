@@ -86,7 +86,11 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
    const release: Release = await releaseApi.getRelease(teamProject, releaseId);
 
    console.log(`Tagging build artifacts:`);
-   if (!release.artifacts) return;
+   if (!release.artifacts) 
+   { 
+      console.log(`No build artifacts found`);
+      return;
+   }
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Build')) {
       if (artifact.alias === undefined) continue;
@@ -104,7 +108,10 @@ async function tagGitArtifacts(tags: string[], message: string, teamProject: str
    const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
    const release: Release = await releaseApi.getRelease(teamProject, releaseId);
    console.log(`Tagging Git artifacts:`);
-   if (!release.artifacts) return;
+   if (!release.artifacts) {
+      console.log(`No Git artifacts found`);
+      return;
+   }
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Git')) {
       if (artifact.alias === undefined) continue;

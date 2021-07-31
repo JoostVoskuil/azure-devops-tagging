@@ -29,4 +29,7 @@ This task requires to provide the System Access Token. See [Microsoft's System.A
 | tagbuildartifactsexclusions | Exclude Build artifacts that matches the given RegEx   |
 | taggitartifactsexclusions   | Exclude Git artifacts that matches the given RegEx                                                             |
 
+
+#currentdate#
+
 Please note that for git tagging, the tag must be unique.

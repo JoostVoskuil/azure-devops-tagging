@@ -85,7 +85,6 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
    const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
    const release: Release = await releaseApi.getRelease(teamProject, releaseId);
 
-   console.log(`Tagging build artifacts (if any)`);
    if (!release.artifacts) return;
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Build')) {
@@ -103,7 +102,6 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
 async function tagGitArtifacts(tags: string[], message: string, teamProject: string, releaseId: number, connection: azdev.WebApi, exclusionsInputString?: string): Promise<void> {
    const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
    const release: Release = await releaseApi.getRelease(teamProject, releaseId);
-   console.log(`Tagging Git artifacts (if any)`);
    if (!release.artifacts) return;
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Git')) {
@@ -136,7 +134,7 @@ async function tagPipeline(tags: string[], teamProject: string, buildId: number,
 async function tagRelease(tags: string[], teamProject: string, releaseId: number, connection: azdev.WebApi): Promise<void> {
    const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
    await releaseApi.addReleaseTags(tags, teamProject, releaseId);
-   console.log(`Added release tags: '${tags.join(',')}'.`);
+   console.log(`- Added release tags: '${tags.join(',')}'.`);
 }
 
 async function tagGit(tag: string, message: string, teamProject: string, repositoryId: string, commitId: string, connection: azdev.WebApi): Promise<void> {

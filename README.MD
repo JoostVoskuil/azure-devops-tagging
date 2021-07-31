@@ -30,5 +30,6 @@ This task allows you to cascade back from a release back to the git repository. 
 Notes:
 
 - You can use #currentdate# in the tag or git commit message. This is replace with the current date
+- Only the first tag is passed as the Git Annotated Tag
   
 Please note that for git tagging, the tag must be unique.

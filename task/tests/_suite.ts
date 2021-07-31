@@ -2,7 +2,6 @@ import * as path from 'path';
 import * as assert from 'assert';
 import * as ttm from 'azure-pipelines-task-lib/mock-test';
 
-
 describe('Access Tokens tests', function () {
     it('Should fail when System.EnableAccessToken is not provided', function(done: Mocha.Done) {    
         const tp = path.join(__dirname, 'AccessToken_EnableAccessTokenNotProvided');
@@ -16,7 +15,6 @@ describe('Access Tokens tests', function () {
         done();
     });
 });
-
 
 describe('Input tests', function () {
     it('Should fail when hosttype is build and tagtype is release', function(done: Mocha.Done) {    

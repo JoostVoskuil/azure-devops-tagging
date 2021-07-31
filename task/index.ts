@@ -75,8 +75,8 @@ async function run() {
       tl.setResult(tl.TaskResult.Succeeded, '');
    }
    catch (err) {
-      //const error = err as Error;
-      tl.setResult(tl.TaskResult.Failed, err);
+      const error = err as Error;
+      tl.setResult(tl.TaskResult.Failed, error.message);
    }
 }
 
@@ -127,8 +127,8 @@ async function tagPipeline(tags: string[], teamProject: string, buildId: number,
 
    if (tagGitRepos) {
       const build = await buildApi.getBuild(teamProject, buildId);
-      const buildRepositoryId = build.repository?.id
-      const commitId = build.sourceVersion
+      const buildRepositoryId = build.repository?.id;
+      const commitId = build.sourceVersion;
       const message = getAzureDevOpsInput('message');
       if (buildRepositoryId && commitId) {
          await tagGit(tags.join(','), message, teamProject, buildRepositoryId, commitId, connection);

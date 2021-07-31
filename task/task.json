@@ -12,7 +12,7 @@
     "author": "Joost Voskuil (joost@foxhole.nl)",
     "version": {
         "Major": 1,
-        "Minor": 2,
+        "Minor": 3,
         "Patch": 1
     },
     "inputs": [
@@ -47,10 +47,18 @@
         {
             "name": "tagbuildartifactsexclusions",
             "type": "string",
-            "label": "Build Artifacts exlusions (RegExp)",
+            "label": "Build Artifacts exclusions (RegExp)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": true,
             "visibleRule": "tagbuildartifacts=true"
+        },
+        {
+            "name": "tagMainGitRepository",
+            "type": "boolean",
+            "label": "Tag primairy git repository consumed by a build",
+            "helpMarkDown": "Check if you want to tag the git commit consumed by a build.",
+            "required": false,
+            "visibleRule": "tagtype=build || tagbuildartifacts=true"
         },
         {
             "name": "taggitartifacts",
@@ -66,23 +74,15 @@
             "label": "Git tag message",
             "helpMarkDown": "Message for git tagging.",
             "required": true,
-            "visibleRule": "tagtype=git || taggitartifacts=true"
+            "visibleRule": "tagtype=git || taggitartifacts=true || tagMainGitRepository=true"
         },
         {
             "name": "taggitartifactsexclusions",
             "type": "string",
-            "label": "Git Artifacts exlusions (RegExp)",
+            "label": "Git Artifacts exclusions (RegExp)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "taggitartifacts=true"
-        },
-        {
-            "name": "tagMainGitRepository",
-            "type": "boolean",
-            "label": "Tag primairy git repository consumed by build",
-            "helpMarkDown": "Check if you want to tag the git commit consumed by the build.",
-            "required": true,
-            "visibleRule": "tagtype=build || tagbuildartifacts=true"
         }
     ],
     "execution": {

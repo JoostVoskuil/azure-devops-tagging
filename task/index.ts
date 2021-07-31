@@ -31,15 +31,15 @@ async function run() {
             }
             else if (tagType === 'build') {
                const buildId = Number(getAzureDevOpsVariable('Build.BuildId'));
-               const tagMainGitRepository = tl.getBoolInput('tagMainGitRepository');
-               await tagPipeline(tags, teamProject, buildId, connection, tagMainGitRepository);
+               const tagBuildGitRepository = tl.getBoolInput('tagBuildGitRepository');
+               await tagPipeline(tags, teamProject, buildId, connection, tagBuildGitRepository);
             }
             else if (tagType === 'git') {
-               if (tags.length > 1) tl.warning(`Multiple tags detected. Concatenating tags to one:${tags.join(',')}`);
+               if (tags.length > 1) tl.warning(`Multiple tags detected. Use only the first tag`);
                const message = getAzureDevOpsInput('message');
                const repositoryId = getAzureDevOpsVariable(`Build.Repository.Id`);
                const commitId = getAzureDevOpsVariable(`Build.SourceVersion`);
-               await tagGit(tags.join(','), message, teamProject, repositoryId, commitId, connection);
+               await tagGit(tags[0], message, teamProject, repositoryId, commitId, connection);
             }
             break;
          }
@@ -95,8 +95,8 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
          continue;
       }
       const buildId = Number(tl.getVariable(`Release.Artifacts.${artifact.alias}.BuildId`));
-      const tagMainGitRepository = tl.getBoolInput('tagMainGitRepository');
-      await tagPipeline(tags, teamProject, buildId, connection, tagMainGitRepository);
+      const tagBuildGitRepository = tl.getBoolInput('tagBuildGitRepository');
+      await tagPipeline(tags, teamProject, buildId, connection, tagBuildGitRepository);
    }
 }
 
@@ -115,7 +115,7 @@ async function tagGitArtifacts(tags: string[], message: string, teamProject: str
 
       const repositoryId = getAzureDevOpsVariable(`Release.Artifacts.${artifact.alias}.Repository.Id`);
       const commitId = getAzureDevOpsVariable(`Release.Artifacts.${artifact.alias}.SourceVersion`);
-      await tagGit(tags.join(','), message, teamProject, repositoryId, commitId, connection);
+      await tagGit(tags[0], message, teamProject, repositoryId, commitId, connection);
    }
 }
 
@@ -128,7 +128,7 @@ async function tagPipeline(tags: string[], teamProject: string, buildId: number,
       const build = await buildApi.getBuild(teamProject, buildId);
       if (build.repository && build.repository.id && build.sourceVersion) {
          const message = getAzureDevOpsInput('message');
-         await tagGit(tags.join(','), message, teamProject, build.repository.id, build.sourceVersion, connection);
+         await tagGit(tags[0], message, teamProject, build.repository.id, build.sourceVersion, connection);
       }
    }
 }

@@ -39,25 +39,25 @@
         {
             "name": "tagbuildartifacts",
             "type": "boolean",
-            "label": "Tag used Build Artifacts",
-            "helpMarkDown": "Check if you want to tag all build artifacs referenced by this release.",
-            "required": true,
+            "label": "Tag Build Artifacts",
+            "helpMarkDown": "Check if you want to tag the build artifacs for this release.",
+            "required": false,
             "visibleRule": "tagtype=release"
         },
         {
-            "name": "tagMainGitRepository",
+            "name": "tagBuildGitRepository",
             "type": "boolean",
-            "label": "Tag primairy git repository consumed by a build",
-            "helpMarkDown": "Check if you want to tag the git commit consumed by a build.",
+            "label": "Tag Builds Git Commit",
+            "helpMarkDown": "Check if you want to add a git annotated tag for the builds commit.",
             "required": false,
             "visibleRule": "tagtype=build || tagbuildartifacts=true"
         },
         {
             "name": "taggitartifacts",
             "type": "boolean",
-            "label": "Tag used Git Artifacts",
-            "helpMarkDown": "Check if you want to tag all git artifacs referenced by this release.",
-            "required": true,
+            "label": "Tag Git Artifacts",
+            "helpMarkDown": "Check if you want to tag the git artifacs for this release.",
+            "required": false,
             "visibleRule": "tagtype=release"
         },
         {
@@ -71,7 +71,7 @@
         {
             "name": "taggitartifactsexclusions",
             "type": "string",
-            "label": "Git Artifacts exclusions (RegExp)",
+            "label": "Git Artifacts exclusions (RegEx)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "taggitartifacts=true"
@@ -79,7 +79,7 @@
         {
             "name": "tagbuildartifactsexclusions",
             "type": "string",
-            "label": "Build Artifacts exclusions (RegExp)",
+            "label": "Build Artifacts exclusions (RegEx)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "tagbuildartifacts=true"

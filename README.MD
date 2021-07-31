@@ -23,9 +23,10 @@ This task requires to provide the System Access Token. See [Microsoft's System.A
 | tags                        | Tags to be added. Use a ',' to seperate multiple tags                                                          |
 | tagtype                     | Can be 'Pipeline' for builds/multistage pipelines, 'Release' for releases and 'git' for add Git Annotated Tags |
 | message                     | Message to be added for Git Annotated Tags. Is not used for pipelines and releases.                            |
-| tagbuildartifacts           | Only for releases. When true it also tags the used Build Artifacts.                                            |
-| tagbuildartifactsexclusions | Exclude Build artifacts that matches the given RegEx                                                           |
+| tagbuildartifacts           | Only for releases. When true it also tags the used Build Artifacts.                                            | |
+| tagBuildGitRepository | |
 | taggitartifacts             | Only for releases. When true it also tags the used Git Artifacts                                               |
+| tagbuildartifactsexclusions | Exclude Build artifacts that matches the given RegEx   |
 | taggitartifactsexclusions   | Exclude Git artifacts that matches the given RegEx                                                             |
 
 Please note that for git tagging, the tag must be unique.

@@ -152,10 +152,12 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
    };
 
    const result: GitAnnotatedTag = await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
-   if (result && result.message && result.message === `A Git ref with the name refs/tags/${tag} already exists.`) {
+   if (result && result.message) {
       tl.warning(result.message);
    }
-   console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
+   else {
+      console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
+   }
 }
 
 function getAzureDevOpsVariable(name: string): string {

@@ -47,19 +47,11 @@
         {
             "name": "tagbuildartifactsexclusions",
             "type": "string",
-            "label": "Build Artifacts exclusions (RegExp)",
+            "label": "Build Artifacts exlusions (RegExp)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "tagbuildartifacts=true"
         },
-        {
-            "name": "tagbuildconsumedgitrepos",
-            "type": "boolean",
-            "label": "Tag used Git Repositories by Build Pipeline",
-            "helpMarkDown": "Check if you want to tag the git repo's that is used by the build pipelines.",
-            "required": true,
-            "visibleRule": "tagtype=build || tagbuildartifacts=true"
-        },     
         {
             "name": "taggitartifacts",
             "type": "boolean",
@@ -74,12 +66,12 @@
             "label": "Git tag message",
             "helpMarkDown": "Message for git tagging.",
             "required": true,
-            "visibleRule": "tagtype=git || taggitartifacts=true || tagbuildconsumedgitrepos=true"
+            "visibleRule": "tagtype=git || taggitartifacts=true"
         },
         {
             "name": "taggitartifactsexclusions",
             "type": "string",
-            "label": "Git Artifacts exclusions (RegExp)",
+            "label": "Git Artifacts exlusions (RegExp)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "taggitartifacts=true"

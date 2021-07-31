@@ -74,9 +74,9 @@ async function run() {
       }
       tl.setResult(tl.TaskResult.Succeeded, '');
    }
-   // eslint-disable-next-line
-   catch (err: any) {
-      tl.setResult(tl.TaskResult.Failed, err.message);
+   catch (err) {
+      const error = err as Error;
+      tl.setResult(tl.TaskResult.Failed, error.message);
    }
 }
 
@@ -205,8 +205,7 @@ function regExpFromString(searchString: string, exclusionsInputString?: string) 
       const regExp = new RegExp(pattern, flags);
       return regExp.test(searchString);
    }
-   // eslint-disable-next-line
-   catch (e: any) {
-      return Error(e);
+   catch (e) {
+      return e;
    }
 }

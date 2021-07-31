@@ -164,7 +164,7 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
       console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);      
    }
    catch (e) {
-
+      console.log(e);
    }
 }
 

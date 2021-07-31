@@ -158,8 +158,14 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
       }
    };
 
-   await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
-   console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
+   try { 
+      const result = await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
+      console.log(result);
+      console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);      
+   }
+   catch (e) {
+
+   }
 }
 
 function getAzureDevOpsVariable(name: string): string {

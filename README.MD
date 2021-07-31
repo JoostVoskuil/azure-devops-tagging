@@ -8,13 +8,11 @@ Tags your pipeline (build), release or git commit.
   inputs:
     tags: 'tag1,tag2'
     tagtype: 'pipeline'
-   env:
-      SYSTEM_ACCESSTOKEN: $(System.AccessToken)
 ```
 
-## System AccessToken
+## Why this task
 
-This task requires to provide the System Access Token. See [Microsoft's System.AccessToken explaination](https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=classic#systemaccesstoken) for more information.
+This task allows you to cascade back from a release back to the git repository. This is handy when you want to tag only build & git commits when a release is done.
 
 ## Arguments
 

@@ -6,10 +6,7 @@ describe('Access Tokens tests', function () {
     it('Should fail when System.EnableAccessToken is not provided', function(done: Mocha.Done) {    
         const tp = path.join(__dirname, 'AccessToken_EnableAccessTokenNotProvided');
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
-        tr.run();
-        console.log(tr.stdout);
-        console.log(tr.stderr);
-        
+        tr.run();        
         assert.strictEqual(tr.failed, true, 'should have failed');
         assert.strictEqual(tr.stdout.indexOf('System.AccessToken is not available.') >= 0, true, 'Should contain: System.AccessToken is not available.');
         done();
@@ -111,6 +108,7 @@ describe('Tag Releases', function () {
         const tp = path.join(__dirname, 'Release_ArtifactBuild');
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
+        console.log(tr.stdout);
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
         assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
         assert.strictEqual(tr.stdout.indexOf("Added pipeline tag") >= 0, true, "Added build tag.");        

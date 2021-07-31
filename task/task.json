@@ -81,7 +81,7 @@
             "type": "string",
             "label": "Build Artifacts exclusions (RegExp)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
-            "required": true,
+            "required": false,
             "visibleRule": "tagbuildartifacts=true"
         }
     ],

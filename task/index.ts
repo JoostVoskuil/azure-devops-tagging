@@ -151,12 +151,12 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
       }
    };
 
-   const result: GitAnnotatedTag = await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
-   if (result && result.message && result.message !== message) {
-      tl.warning(result.message);
-   }
-   else {
+   try {
+      const result: GitAnnotatedTag = await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
       console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
+   }
+   catch (err) {
+      tl.warning(err as string);
    }
 }
 
@@ -174,9 +174,9 @@ function getAzureDevOpsInput(name: string): string {
 
 function replaceText(input: string): string {
    const today = new Date();
-   const dd = String(today. getDate()). padStart(2, '0');
-   const mm = String(today. getMonth() + 1). padStart(2, '0');
-   const yyyy = today. getFullYear();
+   const dd = String(today.getDate()).padStart(2, '0');
+   const mm = String(today.getMonth() + 1).padStart(2, '0');
+   const yyyy = today.getFullYear();
    const output = input.replace("#currentdate#", `${dd}-${mm}-${yyyy}`);
    return output;
 }

@@ -2,18 +2,16 @@ import * as path from 'path';
 import * as assert from 'assert';
 import * as ttm from 'azure-pipelines-task-lib/mock-test';
 
-
 describe('Access Tokens tests', function () {
     it('Should fail when System.EnableAccessToken is not provided', function(done: Mocha.Done) {    
         const tp = path.join(__dirname, 'AccessToken_EnableAccessTokenNotProvided');
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
-        tr.run();
+        tr.run();        
         assert.strictEqual(tr.failed, true, 'should have failed');
         assert.strictEqual(tr.stdout.indexOf('System.AccessToken is not available.') >= 0, true, 'Should contain: System.AccessToken is not available.');
         done();
     });
 });
-
 
 describe('Input tests', function () {
     it('Should fail when hosttype is build and tagtype is release', function(done: Mocha.Done) {    
@@ -48,7 +46,7 @@ describe('Tag Pipelines', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added pipeline tags") >= 0, true, "Should contain: Added pipeline tags: 'tag1'.");
+        assert.strictEqual(tr.stdout.indexOf("- Added pipeline tags") >= 0, true, "Should contain: Added pipeline tags: 'tag1'.");
         done();
     });
     
@@ -57,7 +55,7 @@ describe('Tag Pipelines', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added pipeline tags") >= 0, true, "Should contain: Added pipeline tags: 'tag1,tag2'.");
+        assert.strictEqual(tr.stdout.indexOf("- Added pipeline tags") >= 0, true, "Should contain: Added pipeline tags: 'tag1,tag2'.");
         done();
     });
 });
@@ -68,7 +66,7 @@ describe('Tag Releases', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");
+        assert.strictEqual(tr.stdout.indexOf("- Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");
         done();
     });
     
@@ -77,7 +75,7 @@ describe('Tag Releases', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1,tag2'.") >= 0, true, "Should contain: Added release tags: 'tag1,tag2'.");
+        assert.strictEqual(tr.stdout.indexOf("- Added release tags: 'tag1,tag2'.") >= 0, true, "Should contain: Added release tags: 'tag1,tag2'.");
         done();
     });
 
@@ -86,7 +84,7 @@ describe('Tag Releases', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
+        assert.strictEqual(tr.stdout.indexOf("- Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
         done();
     });
     it('Should tag with no artifacts', function(done: Mocha.Done) {    
@@ -94,7 +92,7 @@ describe('Tag Releases', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
+        assert.strictEqual(tr.stdout.indexOf("- Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
         done();
     });
     it('Should tag git artifacts', function(done: Mocha.Done) {    
@@ -102,8 +100,8 @@ describe('Tag Releases', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
-        assert.strictEqual(tr.stdout.indexOf("Added git tag") >= 0, true, "Added git tag.");        
+        assert.strictEqual(tr.stdout.indexOf("- Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
+        assert.strictEqual(tr.stdout.indexOf("- Added git tag") >= 0, true, "Added git tag.");        
         done();
     });
     it('Should tag build artifacts', function(done: Mocha.Done) {    
@@ -111,8 +109,8 @@ describe('Tag Releases', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
-        assert.strictEqual(tr.stdout.indexOf("Added pipeline tag") >= 0, true, "Added build tag.");        
+        assert.strictEqual(tr.stdout.indexOf("- Added release tags: 'tag1'.") >= 0, true, "Should contain: Added release tags: 'tag1'.");        
+        assert.strictEqual(tr.stdout.indexOf("- Added pipeline tag") >= 0, true, "Added build tag.");        
         done();
     });
 });
@@ -123,7 +121,7 @@ describe('Tag git', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
-        assert.strictEqual(tr.stdout.indexOf("Added git tag tag1 with message: blabla") >= 0, true, "Should contain: Added git tag tag1 with message: blabla.");
+        assert.strictEqual(tr.stdout.indexOf("- Added git tag tag1 with message: blabla") >= 0, true, "Should contain: Added git tag tag1 with message: blabla.");
         done();
     });
     
@@ -133,8 +131,8 @@ describe('Tag git', function () {
         tr.run();
         assert.strictEqual(tr.succeeded, true, 'should have succeded');
         assert.strictEqual(tr.warningIssues.length, 1, "should have one warnings");
-        assert.strictEqual(tr.stdout.indexOf("Multiple tags detected") >= 0, true, "Should contain: Multiple tags detected.");
-        assert.strictEqual(tr.stdout.indexOf("Added git tag tag1,tag2 with message: blabla") >= 0, true, "Should contain: Added git tag tag1,tag2 with message: blabla");
+        assert.strictEqual(tr.stdout.indexOf("Multiple tags detected. Use only the first tag") >= 0, true, "Should contain: Multiple tags detected.");
+        assert.strictEqual(tr.stdout.indexOf("- Added git tag tag1 with message: blabla") >= 0, true, "Should contain: Added git tag tag1 with message: blabla");
         done();
     });
 });

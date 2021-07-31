@@ -16,6 +16,7 @@ tmr.setInput('tagType', 'release');
 tmr.setInput('message', message);
 tmr.setInput('taggitartifacts', 'false');
 tmr.setInput('tagbuildartifacts', 'true');
+tmr.setInput('tagBuildGitRepository', 'true');
 
 // Environment Settings
 process.env['SYSTEM_TEAMPROJECT'] = teamProject;

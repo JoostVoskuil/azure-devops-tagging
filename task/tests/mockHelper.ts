@@ -2,6 +2,7 @@ import { GitAnnotatedTag } from 'azure-devops-node-api/interfaces/GitInterfaces'
 import * as mr from 'azure-pipelines-task-lib/mock-run';
 import path = require('path');
 import { Release } from 'azure-devops-node-api/interfaces/ReleaseInterfaces';
+import { Build } from 'azure-devops-node-api/interfaces/BuildInterfaces';
 
 export function BuildWithAddBuildTagsMock(taskMockRunner: mr.TaskMockRunner, tags: string[], teamProject: string, Id, message?, fillArtifacts?: boolean): mr.TaskMockRunner {
 	// Mock WebApi
@@ -18,7 +19,19 @@ export function BuildWithAddBuildTagsMock(taskMockRunner: mr.TaskMockRunner, tag
 							if (passedId !== Id) throw `Id is not correctly passed: ${passedId}`
 							if (JSON.stringify(passedTags) !== JSON.stringify(tags)) throw `tags are not correctly passed: ${passedTags} / ${tags}`
 							return;
-						},	
+						},
+						getBuild: async function(passedTeamProject, passedId) {
+							if (teamProject !== passedTeamProject) throw `teamProject is not correctly passed: ${passedTeamProject}`
+							if (passedId !== Id) throw `Id is not correctly passed: ${passedId}`
+							const build: Build  = {
+								sourceVersion: "version",
+								repository: 
+								{ 
+									id: "123"
+								}
+							}
+							return build;
+						},
 					}
 				},
 				getReleaseApi: async function () {
@@ -53,7 +66,7 @@ export function BuildWithAddBuildTagsMock(taskMockRunner: mr.TaskMockRunner, tag
 					return {
 						createAnnotatedTag(tagObject: GitAnnotatedTag, passedTeamProject, repositoryId) {
 							if (teamProject !== passedTeamProject) throw `teamProject is not correctly passed: ${passedTeamProject}`;
-							if (tagObject.name !== tags.join(',')) throw `tags are not correctly passed: ${tagObject.name } / ${tags}`;
+							if (tagObject.name !== tags[0]) throw `tags are not correctly passed: ${tagObject.name } / ${tags}`;
 							if (tagObject.message !== message) throw `massage is not correctly passed: ${tagObject.message } / ${message}`;
 							if (Id.toString() !== repositoryId.toString()) throw `repositoryId is not correctly passed: ${Id } / ${repositoryId}`;
 							return;

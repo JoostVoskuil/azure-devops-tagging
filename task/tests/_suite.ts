@@ -9,6 +9,8 @@ describe('Access Tokens tests', function () {
         const tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
         tr.run();
         console.log(tr.stdout);
+        console.log(tr.stderr);
+        
         assert.strictEqual(tr.failed, true, 'should have failed');
         assert.strictEqual(tr.stdout.indexOf('System.AccessToken is not available.') >= 0, true, 'Should contain: System.AccessToken is not available.');
         done();

@@ -35,7 +35,7 @@ async function run() {
                await tagPipeline(tags, teamProject, buildId, connection, tagBuildGitRepository);
             }
             else if (tagType === 'git') {
-               if (tags.length > 1) tl.warning(`Multiple tags detected. Use only the first tag`);
+               if (tags.length > 1) tl.warning(`Multiple tags detected. Use only the first tag.`);
                const message = getAzureDevOpsInput('message');
                const repositoryId = getAzureDevOpsVariable(`Build.Repository.Id`);
                const commitId = getAzureDevOpsVariable(`Build.SourceVersion`);
@@ -152,7 +152,7 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
    };
 
    const result: GitAnnotatedTag = await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
-   if (result.message === `A Git ref with the name refs/tags/${tag} already exists.`) {
+   if (result && result.message && result.message === `A Git ref with the name refs/tags/${tag} already exists.`) {
       tl.warning(result.message);
    }
    console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);

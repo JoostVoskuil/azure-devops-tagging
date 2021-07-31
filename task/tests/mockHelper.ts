@@ -66,7 +66,7 @@ export function BuildWithAddBuildTagsMock(taskMockRunner: mr.TaskMockRunner, tag
 					return {
 						createAnnotatedTag(tagObject: GitAnnotatedTag, passedTeamProject, repositoryId) {
 							if (teamProject !== passedTeamProject) throw `teamProject is not correctly passed: ${passedTeamProject}`;
-							if (tagObject.name !== tags.join(',')) throw `tags are not correctly passed: ${tagObject.name } / ${tags}`;
+							if (tagObject.name !== tags[0]) throw `tags are not correctly passed: ${tagObject.name } / ${tags}`;
 							if (tagObject.message !== message) throw `massage is not correctly passed: ${tagObject.message } / ${message}`;
 							if (Id.toString() !== repositoryId.toString()) throw `repositoryId is not correctly passed: ${Id } / ${repositoryId}`;
 							return;

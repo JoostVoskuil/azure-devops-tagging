@@ -31,7 +31,8 @@ async function run() {
             }
             else if (tagType === 'build') {
                const buildId = Number(getAzureDevOpsVariable('Build.BuildId'));
-               await tagPipeline(tags, teamProject, buildId, connection);
+               const tagMainGitRepository = tl.getBoolInput('tagbuildconsumedgitrepos');
+               await tagPipeline(tags, teamProject, buildId, connection, tagMainGitRepository);
             }
             else if (tagType === 'git') {
                if (tags.length > 1) tl.warning(`Multiple tags detected. Concatenating tags to one:${tags.join(',')}`);
@@ -65,7 +66,6 @@ async function run() {
                if (inputTagGitArtifacts) {
                   const message = getAzureDevOpsInput('message');
                   const exclusionsInputString = tl.getInput('taggitartifactsexclusions');
-
                   await tagGitArtifacts(tags, message, teamProject, releaseId, connection, exclusionsInputString);
                }
             }
@@ -74,7 +74,7 @@ async function run() {
       }
       tl.setResult(tl.TaskResult.Succeeded, '');
    }
-   catch (err) {
+   catch (err: any) {
       tl.setResult(tl.TaskResult.Failed, err)
    }
 }
@@ -95,7 +95,8 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
          continue;
       }
       const buildId = Number(tl.getVariable(`Release.Artifacts.${artifact.alias}.BuildId`));
-      await tagPipeline(tags, teamProject, buildId, connection);
+      const tagMainGitRepository = tl.getBoolInput('tagbuildconsumedgitrepos');
+      await tagPipeline(tags, teamProject, buildId, connection, tagMainGitRepository);
    }
 }
 
@@ -118,10 +119,20 @@ async function tagGitArtifacts(tags: string[], message: string, teamProject: str
    }
 }
 
-async function tagPipeline(tags: string[], teamProject: string, buildId: number, connection: azdev.WebApi): Promise<void> {
+async function tagPipeline(tags: string[], teamProject: string, buildId: number, connection: azdev.WebApi, tagGitRepos: boolean): Promise<void> {
    const buildApi: ba.BuildApi = await connection.getBuildApi();
    await buildApi.addBuildTags(tags, teamProject, buildId);
    console.log(`Added pipeline tags to pipeline ${buildId}: '${tags.join(',')}'.`);
+
+   if (tagGitRepos) {
+      const build = await buildApi.getBuild(teamProject, buildId);
+      const buildRepositoryId = build.repository?.id
+      const commitId = build.sourceVersion
+      const message = getAzureDevOpsInput('message');
+      if (buildRepositoryId && commitId) {
+         await tagGit(tags.join(','), message, teamProject, buildRepositoryId, commitId, connection);
+      }
+   }
 }
 
 async function tagRelease(tags: string[], teamProject: string, releaseId: number, connection: azdev.WebApi): Promise<void> {
@@ -193,7 +204,7 @@ function regExpFromString(searchString: string, exclusionsInputString?: string) 
       const regExp = new RegExp(pattern, flags);
       return regExp.test(searchString);
    }
-   catch (e) {
+   catch (e: any) {
       return Error(e);
    }
 }

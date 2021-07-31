@@ -53,6 +53,14 @@
             "visibleRule": "tagbuildartifacts=true"
         },
         {
+            "name": "tagbuildconsumedgitrepos",
+            "type": "boolean",
+            "label": "Tag used Git Repositories by Build Pipeline",
+            "helpMarkDown": "Check if you want to tag the git repo's that is used by the build pipelines.",
+            "required": true,
+            "visibleRule": "tagtype=build || tagbuildartifacts=true"
+        },     
+        {
             "name": "taggitartifacts",
             "type": "boolean",
             "label": "Tag used Git Artifacts",
@@ -66,7 +74,7 @@
             "label": "Git tag message",
             "helpMarkDown": "Message for git tagging.",
             "required": true,
-            "visibleRule": "tagtype=git || taggitartifacts=true"
+            "visibleRule": "tagtype=git || taggitartifacts=true || tagbuildconsumedgitrepos=true"
         },
         {
             "name": "taggitartifactsexclusions",

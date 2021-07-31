@@ -47,7 +47,7 @@
         {
             "name": "tagbuildartifactsexclusions",
             "type": "string",
-            "label": "Build Artifacts exlusions (RegExp)",
+            "label": "Build Artifacts exclusions (RegExp)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "tagbuildartifacts=true"
@@ -71,7 +71,7 @@
         {
             "name": "taggitartifactsexclusions",
             "type": "string",
-            "label": "Git Artifacts exlusions (RegExp)",
+            "label": "Git Artifacts exclusions (RegExp)",
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "taggitartifacts=true"

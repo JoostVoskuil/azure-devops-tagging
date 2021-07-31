@@ -45,14 +45,6 @@
             "visibleRule": "tagtype=release"
         },
         {
-            "name": "tagbuildartifactsexclusions",
-            "type": "string",
-            "label": "Build Artifacts exclusions (RegExp)",
-            "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
-            "required": true,
-            "visibleRule": "tagbuildartifacts=true"
-        },
-        {
             "name": "tagMainGitRepository",
             "type": "boolean",
             "label": "Tag primairy git repository consumed by a build",
@@ -83,6 +75,14 @@
             "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "taggitartifacts=true"
+        },
+        {
+            "name": "tagbuildartifactsexclusions",
+            "type": "string",
+            "label": "Build Artifacts exclusions (RegExp)",
+            "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
+            "required": true,
+            "visibleRule": "tagbuildartifacts=true"
         }
     ],
     "execution": {

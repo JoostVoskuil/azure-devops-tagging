@@ -88,14 +88,14 @@ async function tagBuildArtifacts(tags: string[], teamProject: string, releaseId:
    console.log(`Tagging build artifacts:`);
    if (!release.artifacts) 
    { 
-      console.log(`No build artifacts found`);
+      console.log(`- No build artifacts found`);
       return;
    }
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Build')) {
       if (artifact.alias === undefined) continue;
       if (regExpFromString(artifact.alias, exclusionsInputString)) {
-         console.log(`'${artifact.alias}' matches '${exclusionsInputString}', skipping tagging for this artifact`);
+         console.log(`- '${artifact.alias}' matches '${exclusionsInputString}', skipping tagging for this artifact`);
          continue;
       }
       const buildId = Number(tl.getVariable(`Release.Artifacts.${artifact.alias}.BuildId`));
@@ -109,14 +109,14 @@ async function tagGitArtifacts(tags: string[], message: string, teamProject: str
    const release: Release = await releaseApi.getRelease(teamProject, releaseId);
    console.log(`Tagging Git artifacts:`);
    if (!release.artifacts) {
-      console.log(`No Git artifacts found`);
+      console.log(`- No Git artifacts found`);
       return;
    }
 
    for (const artifact of release.artifacts.filter(x => x.type === 'Git')) {
       if (artifact.alias === undefined) continue;
       if (regExpFromString(artifact.alias, exclusionsInputString)) {
-         console.log(`'${artifact.alias}' matches '${exclusionsInputString}', skipping tagging for this artifact`);
+         console.log(`- '${artifact.alias}' matches '${exclusionsInputString}', skipping tagging for this artifact`);
          continue;
       }
 
@@ -129,7 +129,7 @@ async function tagGitArtifacts(tags: string[], message: string, teamProject: str
 async function tagPipeline(tags: string[], teamProject: string, buildId: number, connection: azdev.WebApi, tagGitRepos: boolean): Promise<void> {
    const buildApi: ba.BuildApi = await connection.getBuildApi();
    await buildApi.addBuildTags(tags, teamProject, buildId);
-   console.log(`Added pipeline tags to pipeline ${buildId}: '${tags.join(',')}'.`);
+   console.log(`- Added pipeline tags to pipeline ${buildId}: '${tags.join(',')}'.`);
 
    if (tagGitRepos) {
       const build = await buildApi.getBuild(teamProject, buildId);
@@ -143,7 +143,7 @@ async function tagPipeline(tags: string[], teamProject: string, buildId: number,
 async function tagRelease(tags: string[], teamProject: string, releaseId: number, connection: azdev.WebApi): Promise<void> {
    const releaseApi: ra.IReleaseApi = await connection.getReleaseApi();
    await releaseApi.addReleaseTags(tags, teamProject, releaseId);
-   console.log(`Added release tags: '${tags.join(',')}'.`);
+   console.log(`- Added release tags: '${tags.join(',')}'.`);
 }
 
 async function tagGit(tag: string, message: string, teamProject: string, repositoryId: string, commitId: string, connection: azdev.WebApi): Promise<void> {
@@ -159,7 +159,7 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
    };
 
    await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
-   console.log(`Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
+   console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
 }
 
 function getAzureDevOpsVariable(name: string): string {

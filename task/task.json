@@ -19,15 +19,15 @@
         {
             "name": "tagtype",
             "type": "picklist",
-            "label": "Tag type",
+            "label": "Running for",
             "defaultValue": "build",
             "required": true,
             "options": {
-                "build": "Pipeline",
-                "release": "Release",
-                "git": "Git"
+                "build": "Pipeline (Tags pipelines and optional git)",
+                "release": "Release (Tags Release and optional builds and git)",
+                "git": "Git (Tags only git commits)"
             },
-            "helpMarkDown": "Specify the tag type you want to add."
+            "helpMarkDown": "Specify the where you want to run the tagging."
         },
         {
             "name": "tags",

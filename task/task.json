@@ -47,8 +47,8 @@
         {
             "name": "tagBuildGitRepository",
             "type": "boolean",
-            "label": "Tag Builds Git Commit",
-            "helpMarkDown": "Check if you want to add a git annotated tag for the builds commit.",
+            "label": "Tag the Git Commit for the build Artifacts",
+            "helpMarkDown": "Check if you want to add a git annotated tag for the build artifacts.",
             "required": false,
             "visibleRule": "tagtype=build || tagbuildartifacts=true"
         },

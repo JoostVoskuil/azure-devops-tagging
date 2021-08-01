@@ -33,7 +33,7 @@
             "name": "tags",
             "type": "string",
             "label": "Tag(s) to be added",
-            "helpMarkDown": "Seperate tags with a ','.",
+            "helpMarkDown": "Seperate tags with a ','. For Git only the first tag is taken.",
             "required": true
         },
         {
@@ -69,20 +69,20 @@
             "visibleRule": "tagtype=git || taggitartifacts=true || tagBuildGitRepository=true"
         },
         {
-            "name": "taggitartifactsexclusions",
-            "type": "string",
-            "label": "Git Artifacts exclusions (RegEx)",
-            "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
-            "required": false,
-            "visibleRule": "taggitartifacts=true"
-        },
-        {
             "name": "tagbuildartifactsexclusions",
             "type": "string",
             "label": "Build Artifacts exclusions (RegEx)",
-            "helpMarkDown": "Exclude artifacts from being tagged. Use RegEx as input.",
+            "helpMarkDown": "Exclude build artifacts from being tagged. Use RegEx as input.",
             "required": false,
             "visibleRule": "tagbuildartifacts=true"
+        },
+        {
+            "name": "taggitartifactsexclusions",
+            "type": "string",
+            "label": "Git Artifacts exclusions (RegEx)",
+            "helpMarkDown": "Exclude git artifacts from being tagged. Use RegEx as input.",
+            "required": false,
+            "visibleRule": "taggitartifacts=true"
         }
     ],
     "execution": {

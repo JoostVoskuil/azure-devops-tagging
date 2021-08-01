@@ -1,9 +1,9 @@
 {
     "manifestVersion": 1,
     "id": "tagging",
-    "name": "Tagging",
+    "name": "Tag Releases, Pipelines and Git Commits (incl. cascading back)",
     "publisher": "foxholenl",
-    "description": "This extension provides tagging for pipelines, releases and git commits.",
+    "description": "This extension provides tagging for pipelines, releases and git commits. It allows you to tag a git commit from a release pipeline.",
     "version": "1.2.0",
     "public": false,
     "targets": [

@@ -3,6 +3,7 @@
 Tags your pipeline (build), release or git commit.
 
 ## YAML Snippet
+
 ```yaml
 - task: Tagging@1
   inputs:
@@ -13,6 +14,14 @@ Tags your pipeline (build), release or git commit.
 ## Why this task
 
 This task allows you to cascade back from a release back to the git repository. This is handy when you want to tag only build & git commits when a release is done.
+
+## Permissions for Releases
+
+When you get the following error message running a release pipeline:
+
+'Error: VS402904: Access denied: User <UserId> does not have manage releases permission. Contact your release manager.'
+
+Please set the 'Manage Releases' permission for this (or all release pipelines) for user '<teamproject> Build Service (foxholenl)'  to 'allow'
 
 ## Arguments
 
@@ -31,5 +40,4 @@ Notes:
 
 - You can use #currentdate# in the tag or git commit message. This is replace with the current date
 - Only the first tag is passed as the Git Annotated Tag
-  
-Please note that for git tagging, the tag must be unique.
+- For Git tagging, the tag must be unique. If the tag already exists you will receive a warning

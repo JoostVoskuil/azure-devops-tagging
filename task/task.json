@@ -1,7 +1,7 @@
 {
     "id": "79e0d24a-97b1-4cac-bcd5-398429dc44b0",
     "name": "Tagging",
-    "friendlyName": "Tagging",
+    "friendlyName": "Tag Releases, Pipelines and Git Commits (incl. cascading back).",
     "description": "Tag your pipelines, releases and git commits.",
     "helpMarkDown": "[More information](https://github.com/JoostVoskuil/azure-devops-tagging)",
     "category": "Utility",
@@ -9,7 +9,7 @@
         "Build",
         "Release"
     ],
-    "author": "Joost Voskuil (joost@foxhole.nl)",
+    "author": "Foxhole",
     "version": {
         "Major": 2,
         "Minor": 0,

@@ -32,9 +32,6 @@ stages:
         codeCoverageTool: 'Cobertura'
         summaryFileLocation: '$(Build.SourcesDirectory)/task/coverage/cobertura-coverage.xml'
         pathToSources: '$(Build.SourcesDirectory)/task/'
-    - task: WhiteSource Bolt@20
-      inputs:
-        cwd: '$(Build.SourcesDirectory)task/'
     - task: Bash@3
       inputs:
         targetType: 'inline'

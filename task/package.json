@@ -30,7 +30,8 @@
   "license": "ISC",
   "dependencies": {
     "azure-pipelines-task-lib": "^4.10.1",
-    "azure-devops-node-api": "^13.0.0"
+    "azure-devops-node-api": "^13.0.0",
+    "ts-node": "^10.9.2"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",

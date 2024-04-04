@@ -150,7 +150,7 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
    };
 
    try {
-      const result: GitAnnotatedTag = await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
+      await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
       console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
    }
    catch (err) {

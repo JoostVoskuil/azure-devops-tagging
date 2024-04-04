@@ -15,7 +15,7 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '12.x'
+        versionSpec: '16.x'
       displayName: 'Install Node.js'
     - task: Bash@3
       inputs:
@@ -32,9 +32,6 @@ stages:
         codeCoverageTool: 'Cobertura'
         summaryFileLocation: '$(Build.SourcesDirectory)/task/coverage/cobertura-coverage.xml'
         pathToSources: '$(Build.SourcesDirectory)/task/'
-    - task: WhiteSource Bolt@20
-      inputs:
-        cwd: '$(Build.SourcesDirectory)task/'
     - task: Bash@3
       inputs:
         targetType: 'inline'
@@ -56,7 +53,6 @@ stages:
         publisherId: 'foxholenl'
         extensionId: 'tagging'
         extensionName: 'Tagging'
-        extensionTag: '-build'
         extensionVersion: '$(Build.BuildNumber)'
         updateTasksVersion: true
         updateTasksVersionType: patch

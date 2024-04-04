@@ -26,15 +26,15 @@ async function run() {
 
       switch (hostType) {
          case 'build': {
-            if (tagType === 'release') {
+            if (tagType.toLowerCase() === 'release') {
                throw 'You are running a build/pipeline. Tagging a release is not possible.'
             }
-            else if (tagType === 'build') {
+            else if ((tagType.toLowerCase() === 'pipeline') || (tagType.toLowerCase() === 'build')) {
                const buildId = Number(getAzureDevOpsVariable('Build.BuildId'));
                const tagBuildGitRepository = tl.getBoolInput('tagBuildGitRepository');
                await tagPipeline(tags, teamProject, buildId, connection, tagBuildGitRepository);
             }
-            else if (tagType === 'git') {
+            else if (tagType.toLowerCase() === 'git') {
                if (tags.length > 1) tl.warning(`Multiple tags detected. Use only the first tag.`);
                const message = replaceText(getAzureDevOpsInput('message'));
                const repositoryId = getAzureDevOpsVariable(`Build.Repository.Id`);
@@ -46,10 +46,10 @@ async function run() {
          case 'deployment':
          case 'release': {
 
-            if (tagType === 'build') {
+            if ((tagType.toLowerCase() === 'pipeline') || (tagType.toLowerCase() === 'build'))  {
                throw 'You are running a classic release pipeline. Tagging a build/pipeline is not possible.';
             }
-            else if (tagType === 'git') {
+            else if (tagType.toLowerCase()=== 'git') {
                throw 'You are running a classic release pipeline. Tagging a git commit directly is not possible.';
             }
             else if (tagType === 'release') {
@@ -150,7 +150,7 @@ async function tagGit(tag: string, message: string, teamProject: string, reposit
    };
 
    try {
-      const result: GitAnnotatedTag = await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
+      await gitApi.createAnnotatedTag(annotatedTag, teamProject, repositoryId);
       console.log(`- Added git tag ${tag} with message: ${message} to repository ${repositoryId} and commit ${commitId}`);
    }
    catch (err) {

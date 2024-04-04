@@ -4,12 +4,12 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: Tagging@0
+- task: Tagging@2
   inputs:
     tags: 'tag1, tag2'
     tagtype: 'pipeline'
 
-- task: Tagging@0
+- task: Tagging@2
   inputs:
     tags: 'tag1'
     tagtype: 'git'

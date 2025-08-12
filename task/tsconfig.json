@@ -2,7 +2,7 @@
   "compilerOptions": {
       "strict": true, 
       "module": "commonjs",
-      "target": "es2020",
+      "target": "es2022",
       "noImplicitAny": false,
       "sourceMap": true,
       "moduleResolution": "node",

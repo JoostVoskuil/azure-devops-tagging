@@ -29,20 +29,20 @@
   "author": "joost@foxhole.nl (joost@foxhole.nl)",
   "license": "ISC",
   "dependencies": {
-    "azure-pipelines-task-lib": "^4.10.1",
-    "azure-devops-node-api": "^13.0.0",
+    "azure-pipelines-task-lib": "^5.2.1",
+    "azure-devops-node-api": "^15.1.1",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.6",
-    "@typescript-eslint/eslint-plugin": "^7.5.0",
-    "@typescript-eslint/parser": "^7.5.0",
+    "@types/mocha": "^10.0.10",
+    "@typescript-eslint/eslint-plugin": "^8.39.1",
+    "@typescript-eslint/parser": "^8.39.1",
     "eslint": "^8.57.0",
-    "mocha": "^10.4.0",
+    "mocha": "^11.7.1",
     "mocha-junit-reporter": "^2.2.1",
-    "nyc": "^15.1.0",
+    "nyc": "^17.1.0",
     "source-map-support": "^0.5.21",
     "sync-request": "^6.1.0",
-    "typescript": "^5.4.3"
+    "typescript": "^5.9.2"
   }
 }

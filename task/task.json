@@ -5,15 +5,12 @@
     "description": "Tag your pipelines, releases and git commits.",
     "helpMarkDown": "[More information](https://github.com/JoostVoskuil/azure-devops-tagging)",
     "category": "Utility",
-    "visibility": [
-        "Build",
-        "Release"
-    ],
+    "visibility": ["Build", "Release"],
     "author": "Foxhole",
     "version": {
-        "Major": 2,
-        "Minor": 2,
-        "Patch": 0
+        "Major": "2",
+        "Minor": "2",
+        "Patch": "0"
     },
     "inputs": [
         {
@@ -91,6 +88,9 @@
         },
         "Node16": {
             "target": "index.js"
-          }
+        },
+        "Node20_1": {
+            "target": "index.js"
+        }
     }
 }

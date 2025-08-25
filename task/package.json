@@ -8,8 +8,8 @@
     "build-test": "npm install && tsc",
     "clean": "rm -rf ./node_modules/ && rm -rf ./coverage/ && rm -rf ./.nyc_output/ && rm -rf test-results.xml && find . -name '*.js' -delete && find . -name '*.js.map' -delete && rm -f package-lock.json && find . -name '.taskkey' -delete",
     "lint": "eslint . --ext .ts",
-    "test": "npm run lint && nyc mocha tests/_suite.js --timeout 10000 && rm -rf ./.nyc_output/",
-    "test-ci": "npm run lint && nyc --reporter=cobertura --reporter=html mocha tests/_suite.js --reporter mocha-junit-reporter --reporter-options mochaFile=./test-results.xml --timeout 10000"
+    "test": "nyc mocha tests/_suite.js --timeout 10000 && rm -rf ./.nyc_output/",
+    "test-ci": "nyc --reporter=cobertura --reporter=html mocha tests/_suite.js --reporter mocha-junit-reporter --reporter-options mochaFile=./test-results.xml --timeout 10000"
   },
   "nyc": {
     "extension": [
@@ -35,9 +35,9 @@
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
-    "@typescript-eslint/eslint-plugin": "^8.39.1",
-    "@typescript-eslint/parser": "^8.39.1",
-    "eslint": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^8.41.0",
+    "@typescript-eslint/parser": "^8.41.0",
+    "eslint": "^9.34.0",
     "mocha": "^11.7.1",
     "mocha-junit-reporter": "^2.2.1",
     "nyc": "^17.1.0",

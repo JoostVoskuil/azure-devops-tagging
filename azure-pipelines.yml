@@ -15,7 +15,7 @@ stages:
     steps:
     - task: NodeTool@0
       inputs:
-        versionSpec: '16.x'
+        versionSpec: '20.x'
       displayName: 'Install Node.js'
     - task: Bash@3
       inputs:
@@ -27,7 +27,7 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/test-results.xml'
     
-    - task: PublishCodeCoverageResults@1
+    - task: PublishCodeCoverageResults@2
       inputs:
         codeCoverageTool: 'Cobertura'
         summaryFileLocation: '$(Build.SourcesDirectory)/task/coverage/cobertura-coverage.xml'
@@ -38,13 +38,12 @@ stages:
         script: 'cd task && npm run clean && npm run build-rel'
       displayName: 'Run Build for Packaging'
       
-    - task: TfxInstaller@3
+    - task: TfxInstaller@5
       displayName: 'Use Node CLI for Azure DevOps'
       inputs:
-        version: '0.8.x'
         checkLatest: true
 
-    - task: PackageAzureDevOpsExtension@3
+    - task: PackageAzureDevOpsExtension@5
       displayName: 'Package Extension: $(Build.SourcesDirectory)'
       name: 'packageStep'
       inputs:
@@ -78,13 +77,12 @@ stages:
          deploy:
           steps:
 
-          - task: TfxInstaller@3
+          - task: TfxInstaller@5
             displayName: 'Use Node CLI for Azure DevOps'
             inputs:
-              version: '0.8.x'
               checkLatest: true
 
-          - task: PublishAzureDevOpsExtension@3
+          - task: PublishAzureDevOpsExtension@5
             name: 'PublishTest'
             inputs:
               connectTo: 'VsTeam'
@@ -114,10 +112,9 @@ stages:
           - task: TfxInstaller@3
             displayName: 'Use Node CLI for Azure DevOps'
             inputs:
-              version: '0.8.x'
               checkLatest: true
 
-          - task: PublishAzureDevOpsExtension@3
+          - task: PublishAzureDevOpsExtension@5
             name: 'PublishProd'
             inputs:
               connectTo: 'VsTeam'
